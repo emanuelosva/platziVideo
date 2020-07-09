@@ -13,11 +13,19 @@ const reducer = (state, action) => {
         ...state,
         myList: [...state.myList, action.payload],
       };
+
     case typeAction.deleteFavorite:
       return {
         ...state,
         myList: state.myList.filter((items) => items.id !== action.payload),
       };
+
+    case typeAction.loginRequest:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
     default:
       return state;
   };

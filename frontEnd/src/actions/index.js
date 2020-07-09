@@ -9,3 +9,8 @@ export const deleteFavorite = (payload) => ({
   type: typeAction.deleteFavorite,
   payload,
 });
+
+export const loginRequest = (payload) => ({
+  type: typeAction.loginRequest,
+  payload,
+});
