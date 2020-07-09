@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Search from '../components/Search';
 import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
@@ -45,6 +46,12 @@ const Home = ({ myList, trends, originals }) => {
       </Categories>
     </>
   );
+};
+
+Home.propTypes = {
+  myList: PropTypes.array,
+  trends: PropTypes.array,
+  originals: PropTypes.array,
 };
 
 const mapStateToProps = (state) => {
