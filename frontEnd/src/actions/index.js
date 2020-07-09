@@ -14,3 +14,8 @@ export const loginRequest = (payload) => ({
   type: typeAction.loginRequest,
   payload,
 });
+
+export const logoutRequest = (payload) => ({
+  type: typeAction.logoutRequest,
+  payload,
+});
