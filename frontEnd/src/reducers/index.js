@@ -32,6 +32,12 @@ const reducer = (state, action) => {
         user: action.payload,
       };
 
+    case typeAction.registerRequest:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
     default:
       return state;
   };

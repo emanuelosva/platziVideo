@@ -19,3 +19,8 @@ export const logoutRequest = (payload) => ({
   type: typeAction.logoutRequest,
   payload,
 });
+
+export const registerRequest = (payload) => ({
+  type: typeAction.registerRequest,
+  payload,
+});
