@@ -16,9 +16,7 @@ const Home = () => {
   // Template structure
   return initialState.length === 0 ?
     <h1>Loading ...</h1> : (
-      <div className='App'>
-
-        <Header />
+      <>
         <Search />
 
         {initialState.mylist.length && (
@@ -46,10 +44,7 @@ const Home = () => {
             ))}
           </Carousel>
         </Categories>
-
-        <Footer />
-
-      </div>
+      </>
     );
 };
 
