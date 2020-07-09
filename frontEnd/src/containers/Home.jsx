@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { connect } from 'react-redux';
 import Search from '../components/Search';
@@ -17,7 +18,11 @@ const Home = ({ myList, trends, originals }) => {
         <Categories title='Mi lista'>
           <Carousel>
             {myList.map((item) => (
-              <CarouselItem key={item.id} {...item} />
+              <CarouselItem
+                key={item.id}
+                {...item}
+                isMyList
+              />
             ))}
           </Carousel>
         </Categories>

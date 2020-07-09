@@ -3,6 +3,12 @@ import typeAction from '../actions/types';
 const reducer = (state, action) => {
   switch (action.type) {
     case typeAction.setFavorite:
+      // eslint-disable-next-line no-case-declarations
+      const exist = state.myList.find((item) => (
+        item.id === action.payload.id
+      ));
+      if (exist) return { ...state };
+
       return {
         ...state,
         myList: [...state.myList, action.payload],
