@@ -1,8 +1,11 @@
-const setFavorite = (payload) => ({
-  type: 'SET_FAVORITE',
+import typeAction from './types';
+
+export const setFavorite = (payload) => ({
+  type: typeAction.setFavorite,
   payload,
 });
 
-module.exports = {
-  setFavorite,
-};
+export const deleteFavorite = (payload) => ({
+  type: typeAction.deleteFavorite,
+  payload,
+});
