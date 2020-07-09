@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -32,14 +33,14 @@ const Login = (props) => {
         <form className='login__container--form' onSubmit={handleSummit}>
           <input
             name='email'
-            className='input'
+            className='inputAuth'
             type='text'
             placeholder='Correo'
             onChange={handleInput}
           />
           <input
             name='password'
-            className='input'
+            className='inputAuth'
             type='password'
             placeholder='Contraseña'
             onChange={handleInput}
