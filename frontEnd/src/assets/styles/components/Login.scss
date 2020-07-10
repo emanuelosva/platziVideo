@@ -1,4 +1,5 @@
 @import './ButtomForm.scss';
+@import '../Vars.scss';
 
 .login {
   background-image: linear-gradient(#21c08b, #8f57fd);
@@ -82,7 +83,7 @@
   border-right: 0px;
   border-top: 0px;
   color: white;
-  font-family: 'Muli', sans-serif;
+  font-family: $theme-font;
   font-size: 16px;
   height: 50px;
   margin-bottom: 20px;
@@ -92,4 +93,13 @@
 
 ::placeholder {
   color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white;
+    font-family: $theme-font;
 }
