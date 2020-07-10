@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { registerRequest } from '../actions';
 import Header from '../components/Header';
 import '../assets/styles/components/Register.scss';
@@ -64,6 +65,10 @@ const Register = (props) => {
       </section>
     </>
   );
+};
+
+Register.propTypes = {
+  registerRequest: PropTypes.func,
 };
 
 const mapDispatchToProps = {

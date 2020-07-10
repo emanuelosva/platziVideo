@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../assets/styles/components/Carousel.scss';
 
 const Carousel = ({ children }) => (
@@ -8,5 +9,9 @@ const Carousel = ({ children }) => (
     </div>
   </section>
 );
+
+Carousel.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.element),
+};
 
 export default Carousel;

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { loginRequest } from '../actions';
 import Header from '../components/Header';
 import '../assets/styles/components/Login.scss';
@@ -77,6 +78,10 @@ const Login = (props) => {
       </section>
     </>
   );
+};
+
+Login.propTypes = {
+  loginRequest: PropTypes.func,
 };
 
 const mapDispatchToProps = {

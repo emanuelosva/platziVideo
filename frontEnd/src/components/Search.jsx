@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-curly-newline */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { findVideo } from '../actions';
 import CarouselItem from './CarouselItem';
 import Carousel from './Carousel';
@@ -51,6 +52,11 @@ const Search = ({ findVideo, searchMatch }) => {
       }
     </>
   );
+};
+
+Search.propTypes = {
+  searchMatch: PropTypes.array,
+  findVideo: PropTypes.func,
 };
 
 const mapSateToProps = (state) => {

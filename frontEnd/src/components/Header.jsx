@@ -66,6 +66,8 @@ const Header = (props) => {
 
 Header.propTypes = {
   user: PropTypes.object,
+  isLogin: PropTypes.bool,
+  isRegister: PropTypes.bool,
   logoutRequest: PropTypes.func,
 };
 

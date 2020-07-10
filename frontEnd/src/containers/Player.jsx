@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getVideoSource } from '../actions';
 
 import '../assets/styles/components/Player.scss';
@@ -28,6 +29,12 @@ const Player = ({ match, playing, getVideoSource, history }) => {
       </div>
     </div>
   ) : (<Redirect to='/404/' />);
+};
+
+Player.propTypes = {
+  playing: PropTypes.object,
+  getVideoSource: PropTypes.func,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
