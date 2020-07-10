@@ -7,6 +7,7 @@
     "dev": "webpack-dev-server --open --mode development",
     "dev:server": "nodemon src/server/index",
     "build": "webpack --mode production",
+    "lint:fix": "eslint --fix ./src/.",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -40,7 +41,6 @@
     "eslint-plugin-react": "^7.20.3",
     "file-loader": "^6.0.0",
     "html-loader": "^1.1.0",
-    "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
     "react-hot-loader": "^4.12.21",
