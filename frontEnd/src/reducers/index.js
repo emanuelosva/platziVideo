@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import typeAction from '../actions/types';
 
 const reducer = (state, action) => {
@@ -43,6 +44,22 @@ const reducer = (state, action) => {
         ...state,
         playing: state.trends.concat(state.originals)
           .find((item) => item.id === Number(action.payload)) || {},
+      };
+
+    case typeAction.findVideo:
+      const allVideos = state.trends.concat(state.originals);
+      return {
+        ...state,
+        searchMatch: [].concat(
+          allVideos
+            .find((item) => (
+              item.title.toLowerCase() === action.payload.toLowerCase()
+            )) ||
+          allVideos
+            .filter((item) => (
+              item.type.toLowerCase() === action.payload.toLowerCase()
+            )),
+        ),
       };
 
     default:

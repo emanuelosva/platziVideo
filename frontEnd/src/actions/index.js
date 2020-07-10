@@ -29,3 +29,8 @@ export const getVideoSource = (payload) => ({
   type: typeAction.getVideoSource,
   payload,
 });
+
+export const findVideo = (payload) => ({
+  type: typeAction.findVideo,
+  payload,
+});
