@@ -2,5 +2,5 @@ require('dotenv').config();
 
 module.exports = {
   port: process.env.PORT,
-  env: process.env.ENV,
+  env: process.env.NODE_ENV,
 };
