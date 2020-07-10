@@ -4,6 +4,7 @@ const actionTypes = {
   loginRequest: 'LOGIN_REQUEST',
   logoutRequest: 'LOGOUT_REQUEST',
   registerRequest: 'REGISTER_REQUEST',
+  getVideoSource: 'GET_VIDEO_SOURCE',
 };
 
 export default actionTypes;

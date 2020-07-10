@@ -24,3 +24,8 @@ export const registerRequest = (payload) => ({
   type: typeAction.registerRequest,
   payload,
 });
+
+export const getVideoSource = (payload) => ({
+  type: typeAction.getVideoSource,
+  payload,
+});
