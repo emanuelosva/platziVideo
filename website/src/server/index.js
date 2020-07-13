@@ -1,4 +1,7 @@
+// Ignore style sheets in server
 require('ignore-styles');
+
+// Babel config
 require('@babel/register')({
   presets: [
     '@babel/preset-env',
@@ -6,4 +9,11 @@ require('@babel/register')({
   ],
 });
 
+// Static files hooks
+require('asset-require-hook')({
+  extensions: ['jpg', 'png', 'gif'],
+  name: 'assets/[hash].[ext]',
+});
+
+// Express server
 require('./server');

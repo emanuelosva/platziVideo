@@ -56,7 +56,7 @@ const renderApp = (req, res) => {
       <StaticRouter location={req.url} context={{}}>
         {renderRoutes(serverRoutes)}
       </StaticRouter>
-    </Provider>
+    </Provider>,
   );
 
   res.send(setResponse(html));
