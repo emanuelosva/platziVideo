@@ -41,10 +41,10 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|gif|jpg)$/,
+        test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            'loader': 'file-loader',
+            loader: 'file-loader',
             options: {
               name: 'assets/[hash].[ext]',
             },
