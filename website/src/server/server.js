@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable global-require */
 import express from 'express';
 import webpack from 'webpack';
 import React from 'react';
@@ -6,6 +8,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
+import { join } from 'path';
+import helmet from 'helmet';
 import reducer from '../frontend/reducers';
 import initialState from '../frontend/initialState';
 import serverRoutes from '../frontend/routes/serverRoutes';
@@ -14,8 +18,8 @@ import config from '../config';
 const PORT = config.port;
 const app = express();
 
-// Development config
 if (config.env !== 'production') {
+  // Development config
   console.log('Development config');
 
   const webpackConfig = require('../../webpack.config');
@@ -29,6 +33,12 @@ if (config.env !== 'production') {
 
   app.use(webpackDevMiddleware(conpiler, serverConfig));
   app.use(webpackHotMiddleware(conpiler));
+} else {
+  // Production config
+  app.use(express.static(join(__dirname, 'public')));
+  app.use(helmet());
+  app.use(helmet.permittedCrossDomainPolicies());
+  app.disable('x-powered-by');
 };
 
 const setResponse = (html, preloadedState) => {
