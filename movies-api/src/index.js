@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../config');
-const { logErrors, errorHandler } = require('./network/middleware/errorHandlers');
+const { logErrors, wrapErrors, errorHandler } = require('./network/middleware/errorHandlers');
 const moviesRouter = require('./routes/movies');
 
 // --- App definition ---
@@ -13,6 +13,7 @@ moviesRouter(app);
 
 // --- Error Middlewares
 app.use(logErrors);
+app.use(wrapErrors);
 app.use(errorHandler);
 
 // --- Server initilization ---
