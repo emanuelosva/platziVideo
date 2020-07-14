@@ -12,7 +12,7 @@ const STATUS_MESSAGES = {
   '500': 'Internal error',
 };
 
-const succesResponse = (req, res, data, status, message) => {
+const successResponse = (req, res, data, status, message) => {
   let statusCode = status || res.statusCode || 200;
   let statusMessages = message || STATUS_MESSAGES[statusCode] || res.statusMessage;
 
@@ -39,6 +39,6 @@ const errorResponse = (req, res, data, status, error) => {
 };
 
 module.exports = {
-  succesResponse,
+  successResponse,
   errorResponse,
 };
