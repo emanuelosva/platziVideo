@@ -24,17 +24,15 @@ const successResponse = (req, res, data, status, message) => {
   });
 };
 
-const errorResponse = (req, res, data, status, error) => {
+const errorResponse = (req, res, error, status) => {
   let statusCode = status || res.statusCode || 500;
-  let statusMessages = STATUS_MESSAGES[statusCode] || res.statusMessage;
-
-  console.error(error);
+  let statusMessages = error || STATUS_MESSAGES[statusCode] || res.statusMessage;
 
   res.status(statusCode).json({
-    error: false,
+    error: true,
     status: statusCode,
     message: statusMessages,
-    body: data,
+    body: {},
   });
 };
 
