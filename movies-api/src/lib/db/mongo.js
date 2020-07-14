@@ -23,7 +23,6 @@ class MongoLib {
     this.dbName = DB_NAME;
     this.collection = collection;
     this.connection = undefined;
-    this.db = this.connect();
   }
 
   async connect() {
@@ -42,8 +41,8 @@ class MongoLib {
 
   async getAll(query) {
     try {
-      const result = await this.db
-        .collection(this.collection)
+      const db = await this.connect();
+      const result = await db.collection(this.collection)
         .find(query)
         .toArray();
 
@@ -56,8 +55,8 @@ class MongoLib {
 
   async get(id) {
     try {
-      const result = await this.db
-        .collection(this.collection)
+      const db = await this.connect();
+      const result = await db.collection(this.collection)
         .findOne({ _id: ObjectId(id) });
 
       return result;
@@ -69,8 +68,8 @@ class MongoLib {
 
   async create(data) {
     try {
-      const result = await this.db
-        .collection(this.collection)
+      const db = await this.connect();
+      const result = await db.collection(this.collection)
         .insertOne(data);
 
       return result;
@@ -82,8 +81,8 @@ class MongoLib {
 
   async update(id, data) {
     try {
-      const result = await this.db
-        .collection(this.collection)
+      const db = await this.connect();
+      const result = await db.collection(this.collection)
         .updateOne(
           { _id: ObjectId(id) },
           { $set: data },
@@ -99,8 +98,8 @@ class MongoLib {
 
   async delete(id) {
     try {
-      const result = await this.db
-        .collection(this.collection)
+      const db = await this.connect();
+      const result = await db.collection(this.collection)
         .deleteOne({ _id: ObjectId(id) });
 
       return result;
