@@ -4,6 +4,8 @@ const moviesRouter = require('./routes/movies');
 
 // --- App definition ---
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // --- Routes ---
 moviesRouter(app);
