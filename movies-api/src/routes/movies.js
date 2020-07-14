@@ -7,6 +7,7 @@ const { successResponse } = require('../network/response');
 const MoviesService = require('../services/movies');
 
 // --- Roter function injection ---
+
 const moviesRouter = (app) => {
   // Router injection (util for test)
   const router = Router();
@@ -24,7 +25,9 @@ const moviesRouter = (app) => {
 // --- Rotes Callbacks ---
 const moviesService = new MoviesService();
 
-// (GET) List all movies or filter by tag in query
+/**
+ * (GET) Get all movis
+*/
 const listMovies = async (req, res, next) => {
   try {
     const { tags } = req.query;
@@ -35,7 +38,9 @@ const listMovies = async (req, res, next) => {
   }
 };
 
-// (GET) Get movie by id
+/**
+ * (GET) Get one movie by Id
+*/
 const getMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
@@ -46,7 +51,9 @@ const getMovie = async (req, res, next) => {
   }
 };
 
-// (POST) Add new Movie
+/**
+ * (POST) Add a new movie
+*/
 const addMovie = async (req, res, next) => {
   try {
     const { body: movieData } = req;
@@ -57,7 +64,9 @@ const addMovie = async (req, res, next) => {
   }
 };
 
-// (PUT) Update a Movie
+/**
+ * (PUT) Update a movie
+*/
 const updateMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
@@ -69,7 +78,9 @@ const updateMovie = async (req, res, next) => {
   }
 };
 
-// (PATCH) Update partially a Movie
+/**
+ * (PATCH) Update partially one movie
+*/
 const updateMoviePartially = async (req, res, next) => {
   try {
     const { movieId } = req.params;
@@ -81,7 +92,9 @@ const updateMoviePartially = async (req, res, next) => {
   }
 };
 
-// (DELTE) Delete a Movie
+/**
+ * (DELETE) Delete a movie
+*/
 const deleteMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
