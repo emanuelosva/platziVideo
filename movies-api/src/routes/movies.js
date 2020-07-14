@@ -4,7 +4,7 @@
 
 const { Router } = require('express');
 const { successResponse } = require('../network/response');
-const { moviesMock } = require('../utils/mocks/movies');
+const MoviesService = require('../services/movies');
 
 // --- Roter function injection ---
 const moviesRouter = (app) => {
@@ -17,16 +17,18 @@ const moviesRouter = (app) => {
   router.get('/:movieId', getMovie);
   router.post('/', addMovie);
   router.put('/:movieId', updateMovie);
+  router.patch('/:movieId', updateMoviePartially)
   router.delete('/:movieId', deleteMovie);
 };
 
 // --- Rotes Callbacks ---
+const moviesService = new MoviesService();
 
 // (GET) List all movies or filter by tag in query
 const listMovies = async (req, res, next) => {
   try {
-    // const { query } = req;
-    const movies = await Promise.resolve(moviesMock);
+    const { tags } = req.query;
+    const movies = await moviesService.getMovies({ tags });
     successResponse(req, res, movies, 200, 'Movies listed');
   } catch (error) {
     next(error);
@@ -37,8 +39,8 @@ const listMovies = async (req, res, next) => {
 const getMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
-    const movie = await Promise.resolve(moviesMock);
-    successResponse(req, res, movie[0], 200, `Movie retrieved. ID: ${movieId}`);
+    const movie = await moviesService.getMovie({ movieId });
+    successResponse(req, res, movie, 200, `Movie retrieved. ID: ${movie._id}`);
   } catch (error) {
     next(error);
   }
@@ -47,31 +49,44 @@ const getMovie = async (req, res, next) => {
 // (POST) Add new Movie
 const addMovie = async (req, res, next) => {
   try {
-    const [movie] = await Promise.resolve(moviesMock);
+    const { body: movieData } = req;
+    const movie = await moviesService.createMovie({ movieData });
     successResponse(req, res, movie, 201, `Movie created. ID: ${movie._id}`);
   } catch (error) {
     next(error);
   }
 };
 
-// (PATCH) Add new Movie
+// (PUT) Update a Movie
 const updateMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
-    // const data = { ...req.body };
-    const movies = await Promise.resolve(moviesMock);
-    successResponse(req, res, movies[0], 200, `Movie updated. ID: ${movieId}`);
+    const { body: movieData } = req;
+    const movie = await moviesService.updateMovie({ movieId, movieData });
+    successResponse(req, res, movie, 200, `Movie updated. ID: ${movie._id}`);
   } catch (error) {
     next(error);
   }
 };
 
-// (DELTE) Add new Movie
+// (PATCH) Update partially a Movie
+const updateMoviePartially = async (req, res, next) => {
+  try {
+    const { movieId } = req.params;
+    const { body: movieData } = req;
+    const movie = await moviesService.updateMovie({ movieId, movieData });
+    successResponse(req, res, movie, 200, `Movie updated. ID: ${movie._id}`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// (DELTE) Delete a Movie
 const deleteMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
-    const movies = await Promise.resolve(moviesMock);
-    successResponse(req, res, movies[0], 200, `Movie deleted. ID: ${movieId}`);
+    const movie = await moviesService.deleteMovie({ movieId });
+    successResponse(req, res, movie, 200, `Movie deleted. ID: ${movie._id}`);
   } catch (error) {
     next(error);
   }
