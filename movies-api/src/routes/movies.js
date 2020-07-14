@@ -5,6 +5,12 @@
 const { Router } = require('express');
 const { successResponse } = require('../network/response');
 const MoviesService = require('../services/movies');
+const validationHandler = require('../network/middleware/validationHandler');
+const {
+  movieIdSchema,
+  createMovieSchema,
+  updateMovieSchema,
+} = require('../schemas/movies');
 
 // --- Roter function injection ---
 
@@ -15,11 +21,28 @@ const moviesRouter = (app) => {
 
   // Routes definition
   router.get('/', listMovies);
-  router.get('/:movieId', getMovie);
-  router.post('/', addMovie);
-  router.put('/:movieId', updateMovie);
-  router.patch('/:movieId', updateMoviePartially)
-  router.delete('/:movieId', deleteMovie);
+  router.get('/:movieId',
+    validationHandler({ movieId: movieIdSchema }, 'params'),
+    getMovie
+  );
+  router.post('/',
+    validationHandler(createMovieSchema),
+    addMovie
+  );
+  router.put('/:movieId',
+    validationHandler({ movieId: movieIdSchema }, 'params'),
+    validationHandler(updateMovieSchema),
+    updateMovie
+  );
+  router.patch('/:movieId',
+    validationHandler({ movieId: movieIdSchema }, 'params'),
+    validationHandler(updateMovieSchema),
+    updateMoviePartially
+  );
+  router.delete('/:movieId',
+    validationHandler({ movieId: movieIdSchema }, 'params'),
+    deleteMovie
+  );
 };
 
 // --- Rotes Callbacks ---
