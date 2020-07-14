@@ -1,6 +1,11 @@
 const express = require('express');
 const config = require('../config');
-const { logErrors, wrapErrors, errorHandler } = require('./network/middleware/errorHandlers');
+const {
+  logErrors,
+  wrapErrors,
+  errorHandler
+} = require('./network/middleware/errorHandlers');
+const notFountHandler = require('./network/middleware/notFoundHandler');
 const moviesRouter = require('./routes/movies');
 
 // --- App definition ---
@@ -10,6 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // --- Routes ---
 moviesRouter(app);
+
+// --- Catch 404 error ---
+app.use(notFountHandler);
 
 // --- Error Middlewares
 app.use(logErrors);
