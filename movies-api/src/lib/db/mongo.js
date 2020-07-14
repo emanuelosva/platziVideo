@@ -72,7 +72,7 @@ class MongoLib {
       const result = await db.collection(this.collection)
         .insertOne(data);
 
-      return result;
+      return result.ops;
     } catch (error) {
       console.error(`[mongoDb] -> ${error}`)
       process.exit(1);
@@ -89,7 +89,7 @@ class MongoLib {
           { $upsert: true },
         );
 
-      return result;
+      return result.upsertedId;
     } catch (error) {
       console.error(`[mongoDb] -> ${error}`)
       process.exit(1);

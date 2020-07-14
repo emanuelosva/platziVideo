@@ -40,7 +40,7 @@ const getMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
     const movie = await moviesService.getMovie({ movieId });
-    successResponse(req, res, movie, 200, `Movie retrieved. ID: ${movie._id}`);
+    successResponse(req, res, movie, 200, `Movie retrieved`);
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,7 @@ const addMovie = async (req, res, next) => {
   try {
     const { body: movieData } = req;
     const movie = await moviesService.createMovie({ movieData });
-    successResponse(req, res, movie, 201, `Movie created. ID: ${movie._id}`);
+    successResponse(req, res, movie, 201, `Movie created`);
   } catch (error) {
     next(error);
   }
@@ -63,7 +63,7 @@ const updateMovie = async (req, res, next) => {
     const { movieId } = req.params;
     const { body: movieData } = req;
     const movie = await moviesService.updateMovie({ movieId, movieData });
-    successResponse(req, res, movie, 200, `Movie updated. ID: ${movie._id}`);
+    successResponse(req, res, movie, 200, `Movie updated`);
   } catch (error) {
     next(error);
   }
@@ -75,7 +75,7 @@ const updateMoviePartially = async (req, res, next) => {
     const { movieId } = req.params;
     const { body: movieData } = req;
     const movie = await moviesService.updateMovie({ movieId, movieData });
-    successResponse(req, res, movie, 200, `Movie updated. ID: ${movie._id}`);
+    successResponse(req, res, movie, 200, `Movie updated`);
   } catch (error) {
     next(error);
   }
@@ -86,7 +86,7 @@ const deleteMovie = async (req, res, next) => {
   try {
     const { movieId } = req.params;
     const movie = await moviesService.deleteMovie({ movieId });
-    successResponse(req, res, movie, 200, `Movie deleted. ID: ${movie._id}`);
+    successResponse(req, res, movie, 200, `Movie deleted`);
   } catch (error) {
     next(error);
   }
