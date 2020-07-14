@@ -2,36 +2,56 @@
  * @fileoverview Services layer for movies
 */
 
-const { moviesMock } = require('../utils/mocks/movies');
+const MongoLib = require('../lib/db/mongo');
+
+const COLLECTION = 'movies';
 
 // Movies Services Object
 class MoviesService {
-  constructor() { };
+  constructor() {
+    this.collection = COLLECTION
+    this.db = new MongoLib(this.collection)
+  };
 
   // Get all movies or filter by tag
-  async getMovies() {
-    const movies = await Promise.resolve(moviesMock);
+  async getMovies({ tags }) {
+    const query = tags && { tags: { $in: tags } };
+    const movies = await this.db.getAll(query);
     return movies || [];
   };
 
-  async getMovie() {
-    const [movie] = await Promise.resolve(moviesMock);
+  async getMovie({ movieId }) {
+    if (!movieId) return Promise.reject('Invalid data. No id');
+
+    const movie = await this.db.get(movieId);
     return movie || {};
   };
 
-  async createMovie() {
-    const [movie] = await Promise.resolve(moviesMock);
+  async createMovie({ movieData }) {
+    const validData = (
+      movieData.title && movieData.year &&
+      movieData.cover && movieData.description &&
+      movieData.duration && movieData.contentRating &&
+      movieData.source && movieData.tags
+    );
+    if (!validData) return Promise.reject('Invalid or incomplete data');
+
+    const [movie] = await this.db.create(movieData);
     return movie || {};
   };
 
-  async updateMovie() {
-    const [movie] = await Promise.resolve(moviesMock);
+  async updateMovie({ movieId, movieData } = {}) {
+    if (!movieId || !movieData) return Promise.reject('No movie data or Id');
+
+    const movie = await this.db.update(movieId, movieData);
     return movie || {};
   };
 
-  async deleteMovie() {
-    const [movie] = await Promise.resolve(moviesMock);
-    return movie || {};
+  async deleteMovie({ movieId }) {
+    if (!movieId) return Promise.reject('No Id');
+
+    await this.db.delete(movieId);
+    return movieId;
   };
 };
 
