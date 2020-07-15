@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "env": {
+    "PORT": "3000",
+    "DB_USER": "@platzivideo-db-user",
+    "DB_PASSWORD": "@platzivideo-db-password",
+    "DB_NAME": "@platzivideo-db-name",
+    "DB_CLUSTER": "@platzivideo-db-cluster"
+  },
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/index.js"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+.nyc_output
+coverage
+.env.example
+.eslintcache
+.eslintrc
+.prettierrc
+LICENSE
+README.md
