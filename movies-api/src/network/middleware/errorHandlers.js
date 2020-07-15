@@ -3,8 +3,9 @@
  * @fileoverview Error handlers middleware
 */
 
-const config = require('../../../config');
+const debug = require('debug')('app:error');
 const boom = require('@hapi/boom');
+const config = require('../../../config');
 const { errorResponse } = require('../response');
 
 // Utils
@@ -15,7 +16,7 @@ const withErrorStack = (error, stack) => {
 
 // Middleares
 const logErrors = (err, req, res, next) => {
-  console.log(err);
+  debug(err);
   next(err);
 };
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const debug = require('debug')('app:server');
 const config = require('../config');
 const {
   logErrors,
@@ -31,5 +32,5 @@ app.use(errorHandler);
 // --- Server initilization ---
 app.listen(config.port, (err) => {
   if (err) throw new Error('Server Error');
-  console.log(`Server running on http://localhost:${config.port}`);
+  debug(`Server running on http://localhost:${config.port}`);
 });

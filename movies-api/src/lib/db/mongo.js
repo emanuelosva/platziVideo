@@ -3,7 +3,12 @@
 */
 
 const { MongoClient, ObjectId } = require('mongodb');
+const debug = require('debug');
 const config = require('../../../config');
+
+// Logs
+const debugDb = debug('app:db');
+const debugErr = debug('app:error');
 
 // Connection credential
 const USER = encodeURIComponent(config.db.user);
@@ -31,10 +36,10 @@ class MongoLib {
     try {
       const client = await this.client.connect();
       this.connection = client.db(this.dbName);
-      console.log('[mongoDb] -> connected successfully');
+      debugDb('[mongoDb] -> connected successfully');
       return this.connection
     } catch (error) {
-      console.error(`[mongoDb] -> ${error}`);
+      debugErr(`[mongoDb] -> ${error}`);
       process.exit(1);
     }
   }
@@ -48,7 +53,7 @@ class MongoLib {
 
       return result;
     } catch (error) {
-      console.error(`[mongoDb] -> ${error}`)
+      debugErr(`[mongoDb] -> ${error}`)
       process.exit(1);
     }
   }
@@ -61,7 +66,7 @@ class MongoLib {
 
       return result;
     } catch (error) {
-      console.error(`[mongoDb] -> ${error}`)
+      debugErr(`[mongoDb] -> ${error}`)
       process.exit(1);
     }
   }
@@ -74,7 +79,7 @@ class MongoLib {
 
       return result.ops;
     } catch (error) {
-      console.error(`[mongoDb] -> ${error}`)
+      debugErr(`[mongoDb] -> ${error}`)
       process.exit(1);
     }
   }
@@ -91,7 +96,7 @@ class MongoLib {
 
       return result.upsertedId;
     } catch (error) {
-      console.error(`[mongoDb] -> ${error}`)
+      debugErr(`[mongoDb] -> ${error}`)
       process.exit(1);
     }
   }
@@ -104,7 +109,7 @@ class MongoLib {
 
       return result;
     } catch (error) {
-      console.error(`[mongoDb] -> ${error}`)
+      debugErr(`[mongoDb] -> ${error}`)
       process.exit(1);
     }
   }
