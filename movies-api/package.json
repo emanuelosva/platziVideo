@@ -8,7 +8,8 @@
     "dev": "DEBUG=app:* nodemon src/index",
     "lint:fix": "eslint --fix .",
     "test": "mocha --exit",
-    "test:coverage": "nyc mocha"
+    "test:coverage": "nyc mocha",
+    "test:report": "nyc report --reporter=html && sensible-browser coverage/index.html"
   },
   "keywords": [],
   "author": "Emanuel Osorio <emanuelosva@gmail.com>",
@@ -42,5 +43,16 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/routes",
+      "src/services",
+      "src/lib",
+      "src/network",
+      "src/schemas",
+      "src/utils"
+    ]
   }
 }
