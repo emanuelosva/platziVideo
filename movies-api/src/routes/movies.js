@@ -6,6 +6,11 @@ const { Router } = require('express');
 const { successResponse } = require('../network/response');
 const MoviesService = require('../services/movies');
 const validationHandler = require('../network/middleware/validationHandler');
+const cacheResponse = require('../network/cacheResponse');
+const {
+  FIVE_MINUTES_INSECODS,
+  SIXTY_MINUTES_INSEONDS,
+} = require('../utils/time');
 const {
   movieIdSchema,
   createMovieSchema,
@@ -52,6 +57,7 @@ const moviesService = new MoviesService();
  * (GET) Get all movis
 */
 const listMovies = async (req, res, next) => {
+  cacheResponse(res, FIVE_MINUTES_INSECODS);
   try {
     const { tags } = req.query;
     const movies = await moviesService.getMovies({ tags });
@@ -65,6 +71,7 @@ const listMovies = async (req, res, next) => {
  * (GET) Get one movie by Id
 */
 const getMovie = async (req, res, next) => {
+  cacheResponse(res, SIXTY_MINUTES_INSEONDS);
   try {
     const { movieId } = req.params;
     const movie = await moviesService.getMovie({ movieId });
