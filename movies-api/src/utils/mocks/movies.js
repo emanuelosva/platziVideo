@@ -154,7 +154,7 @@ const moviesMock = [
 ];
 
 const filterMoviesMock = (tag) => {
-  return moviesMock.filter((movie) => movie.include(tag));
+  return moviesMock.filter((movie) => movie.tags.includes(tag));
 };
 
 class MoviesServiceMock {
