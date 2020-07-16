@@ -9,10 +9,11 @@ const UsersService = require('../../../services/users');
 const config = require('../../../../config');
 
 passport.use(
-  new Strategy({
-    secretOrKey: config.jwt.secret,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  },
+  new Strategy(
+    {
+      secretOrKey: config.jwt.secret,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    },
     async (tokenPayload, cb) => {
       const usersService = new UsersService();
       try {
