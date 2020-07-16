@@ -10,6 +10,7 @@ const {
 } = require('./network/middleware/errorHandlers');
 const notFountHandler = require('./network/middleware/notFoundHandler');
 const moviesRouter = require('./routes/movies');
+const userRouter = require('./routes/users');
 const userMoviesRouter = require('./routes/userMovies');
 
 // --- App definition ---
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // --- Routes ---
 moviesRouter(app);
+userRouter(app);
 userMoviesRouter(app);
 
 // --- Catch 404 error ---
