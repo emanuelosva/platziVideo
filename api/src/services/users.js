@@ -31,6 +31,7 @@ class UsersService {
       name,
       email,
       password: hashedPassword,
+      isAdmin: userData.isAdmin ? userData.isAdmin : false,
     };
 
     const [user] = await this.db.create(newUSer);
@@ -46,7 +47,7 @@ class UsersService {
       userData.password = await bcrypt.hash(userData.password, 10);
     }
 
-    const [user] = await this.db.update(userId, userData);
+    const user = await this.db.update(userId, userData);
     return user || {};
   }
 };
