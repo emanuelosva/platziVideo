@@ -7,6 +7,7 @@ const { successResponse } = require('../network/response');
 const UsersService = require('../services/users');
 const validationHandler = require('../network/middleware/validationHandler');
 const cacheResponse = require('../network/cacheResponse');
+const scopeValidationHandler = require('../network/middleware/scopesValidationHandler');
 const { jwtAuth } = require('../network/middleware/auth');
 const {
   FIVE_MINUTES_INSECODS,
@@ -26,10 +27,12 @@ const usersRouter = (app) => {
 
   // Routes definition
   router.get('/',
+    scopeValidationHandler(['read:movies']),
     validationHandler({ email: userEmailSchema }, 'query'),
     getUser,
   );
   router.put('/:userId',
+    scopeValidationHandler(['signin:auth']),
     validationHandler({ userId: userIdSchema }, 'params'),
     validationHandler(updateUserSchema),
     updateUser,

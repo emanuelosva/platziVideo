@@ -7,6 +7,7 @@ const { successResponse } = require('../network/response');
 const MoviesService = require('../services/movies');
 const validationHandler = require('../network/middleware/validationHandler');
 const cacheResponse = require('../network/cacheResponse');
+const scopeValidationHandler = require('../network/middleware/scopesValidationHandler');
 const { jwtAuth } = require('../network/middleware/auth');
 const {
   FIVE_MINUTES_INSECODS,
@@ -28,27 +29,33 @@ const moviesRouter = (app) => {
 
   // Routes definition
   router.get('/',
+    scopeValidationHandler(['read:movies']),
     listMovies
   );
   router.get('/:movieId',
+    scopeValidationHandler(['read:movies']),
     validationHandler({ movieId: movieIdSchema }, 'params'),
     getMovie
   );
   router.post('/',
+    scopeValidationHandler(['create:movies']),
     validationHandler(createMovieSchema),
     addMovie
   );
   router.put('/:movieId',
+    scopeValidationHandler(['update:movies']),
     validationHandler({ movieId: movieIdSchema }, 'params'),
     validationHandler(updateMovieSchema),
     updateMovie
   );
   router.patch('/:movieId',
+    scopeValidationHandler(['update:movies']),
     validationHandler({ movieId: movieIdSchema }, 'params'),
     validationHandler(updateMovieSchema),
     updateMoviePartially
   );
   router.delete('/:movieId',
+    scopeValidationHandler(['delete:movies']),
     validationHandler({ movieId: movieIdSchema }, 'params'),
     deleteMovie
   );

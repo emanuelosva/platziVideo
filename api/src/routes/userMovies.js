@@ -6,6 +6,7 @@ const { Router } = require('express');
 const { successResponse } = require('../network/response');
 const UserMoviesService = require('../services/userMovies');
 const validationHandler = require('../network/middleware/validationHandler');
+const scopeValidationHandler = require('../network/middleware/scopesValidationHandler');
 const { jwtAuth } = require('../network/middleware/auth');
 const {
   userMovieIdSchema,
@@ -23,14 +24,17 @@ const userMoviesRouter = (app) => {
 
   // Routes definition
   router.get('/',
+    scopeValidationHandler(['read:user-movies']),
     validationHandler({ userId: userIdSchema }, 'query'),
     getUserMovies,
   );
   router.post('/',
+    scopeValidationHandler(['create:user-movies']),
     validationHandler(createUserMovieSchema),
     createUserMovie,
   );
   router.delete('/:userMovieId',
+    scopeValidationHandler(['delete:user-movies']),
     validationHandler({ userMovieId: userMovieIdSchema }, 'params'),
     deleteUserMovie
   )
