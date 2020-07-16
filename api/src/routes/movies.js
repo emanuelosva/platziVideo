@@ -7,6 +7,7 @@ const { successResponse } = require('../network/response');
 const MoviesService = require('../services/movies');
 const validationHandler = require('../network/middleware/validationHandler');
 const cacheResponse = require('../network/cacheResponse');
+const { jwtAuth } = require('../network/middleware/auth');
 const {
   FIVE_MINUTES_INSECODS,
   SIXTY_MINUTES_INSEONDS,
@@ -22,10 +23,13 @@ const {
 const moviesRouter = (app) => {
   // Router injection (util for test)
   const router = Router();
+  router.use(jwtAuth)
   app.use('/api/movies', router);
 
   // Routes definition
-  router.get('/', listMovies);
+  router.get('/',
+    listMovies
+  );
   router.get('/:movieId',
     validationHandler({ movieId: movieIdSchema }, 'params'),
     getMovie

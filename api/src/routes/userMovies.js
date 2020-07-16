@@ -6,6 +6,7 @@ const { Router } = require('express');
 const { successResponse } = require('../network/response');
 const UserMoviesService = require('../services/userMovies');
 const validationHandler = require('../network/middleware/validationHandler');
+const { jwtAuth } = require('../network/middleware/auth');
 const {
   userMovieIdSchema,
   createUserMovieSchema,
@@ -17,6 +18,7 @@ const { userIdSchema } = require('../schemas/users')
 
 const userMoviesRouter = (app) => {
   const router = Router();
+  router.use(jwtAuth);
   app.use('/api/user-movies', router);
 
   // Routes definition

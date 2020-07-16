@@ -7,6 +7,7 @@ const { successResponse } = require('../network/response');
 const UsersService = require('../services/users');
 const validationHandler = require('../network/middleware/validationHandler');
 const cacheResponse = require('../network/cacheResponse');
+const { jwtAuth } = require('../network/middleware/auth');
 const {
   FIVE_MINUTES_INSECODS,
 } = require('../utils/time');
@@ -20,6 +21,7 @@ const {
 
 const usersRouter = (app) => {
   const router = Router();
+  router.use(jwtAuth);
   app.use('/api/users', router);
 
   // Routes definition
