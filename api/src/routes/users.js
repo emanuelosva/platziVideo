@@ -12,7 +12,6 @@ const {
 } = require('../utils/time');
 const {
   userIdSchema,
-  createUserSchema,
   updateUserSchema,
   userEmailSchema
 } = require('../schemas/users');
@@ -27,10 +26,6 @@ const usersRouter = (app) => {
   router.get('/',
     validationHandler({ email: userEmailSchema }, 'query'),
     getUser,
-  );
-  router.post('/',
-    validationHandler(createUserSchema),
-    createUser,
   );
   router.put('/:userId',
     validationHandler({ userId: userIdSchema }, 'params'),
@@ -51,19 +46,6 @@ const getUser = async (req, res, next) => {
   try {
     const user = await usersService.getUser({ email });
     successResponse(req, res, user, 200, 'User retrieved');
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * (POST) Create a user
-*/
-const createUser = async (req, res, next) => {
-  const { body: userData } = req;
-  try {
-    const user = await usersService.createUser({ userData });
-    successResponse(req, res, user, 201, 'User created');
   } catch (error) {
     next(error);
   }
