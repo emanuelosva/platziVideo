@@ -73,7 +73,7 @@ const deleteUserMovie = async (req, res, next) => {
   try {
     const userMovieDeleted = await userMoviesService
       .deleteUserMovie({ userMovieId });
-    successResponse(req, res, userMovieDeleted, 201, 'User movie deleted');
+    successResponse(req, res, userMovieDeleted, 200, 'User movie deleted');
   } catch (error) {
     next(error);
   }
