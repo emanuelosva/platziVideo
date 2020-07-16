@@ -9,4 +9,11 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     cluster: process.env.DB_CLUSTER,
   },
+  jwt: {
+    secret: process.env.AUTH_JWT_SECRET,
+  },
+  default: {
+    userPassword: process.env.DEFAULT_USER_PASSWORD,
+    adminPassword: process.env.DEFAULT_ADMIN_PASSWORD,
+  }
 };
