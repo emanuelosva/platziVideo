@@ -27,21 +27,21 @@ class MongoLib {
 
     this.dbName = DB_NAME;
     this.collection = collection;
-    this.connection = undefined;
   }
 
   async connect() {
-    if (this.connection) return this.connection;
-
-    try {
-      const client = await this.client.connect();
-      this.connection = client.db(this.dbName);
-      debugDb('[mongoDb] -> connected successfully');
-      return this.connection
-    } catch (error) {
-      debugErr(`[mongoDb] -> ${error}`);
-      process.exit(1);
+    if (!MongoLib.connection) {
+      try {
+        const client = await this.client.connect()
+        MongoLib.connection = client.db(this.dbName);
+        debugDb('[mongoDb] -> connected successfully');
+      } catch (error) {
+        debugErr(`[mongoDb] -> ${error}`);
+        process.exit(1);
+      }
     }
+
+    return MongoLib.connection;
   }
 
   async getAll(query) {
