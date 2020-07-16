@@ -12,6 +12,7 @@ const notFountHandler = require('./network/middleware/notFoundHandler');
 const moviesRouter = require('./routes/movies');
 const userRouter = require('./routes/users');
 const userMoviesRouter = require('./routes/userMovies');
+const authApiRouter = require('./routes/auth');
 
 // --- App definition ---
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 moviesRouter(app);
 userRouter(app);
 userMoviesRouter(app);
+authApiRouter(app);
 
 // --- Catch 404 error ---
 app.use(notFountHandler);
