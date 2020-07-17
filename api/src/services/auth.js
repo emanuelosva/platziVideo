@@ -65,6 +65,40 @@ class Auth {
   };
 
   async logout() { };
+
+  async signProvider(req, res, next, body) {
+    const { apiKeyToken, ...user } = body;
+    if (!apiKeyToken) next(boom.unauthorized('apiKeyToken required'));
+
+    try {
+      const queriedUser = await usersService.getOrCreateUser({ userData: user });
+      const apiKey = await apiKeyService.getApiKeys({ token: apiKeyToken });
+
+      if (!apiKey) next(boom.unauthorized());
+
+      const { _id: id, name, email } = queriedUser;
+      const payload = {
+        sub: id,
+        name,
+        email,
+        scopes: apiKey.scopes,
+      };
+
+      const token = jwt.sign(payload, config.jwt.secret, {
+        expiresIn: '15min',
+      });
+
+      const data = {
+        token,
+        user: { id, name, email },
+      };
+
+      return successResponse(req, res, data, 200, 'Succes login')
+
+    } catch (error) {
+      next(error);
+    }
+  };
 };
 
 module.exports = Auth;

@@ -5,7 +5,7 @@
 const { Router } = require('express');
 const Auth = require('../services/auth');
 const validationHandler = require('../network/middleware/validationHandler');
-const { createUserSchema } = require('../schemas/users');
+const { createUserSchema, createProviderUserSchema } = require('../schemas/users');
 
 
 // --- Roter function injection ---
@@ -15,10 +15,16 @@ const authApiRouter = (app) => {
 
   // Routes definition
   router.post('/sign-in', signIn);
+
   router.post('/sign-up',
     validationHandler(createUserSchema),
     singUp
   );
+
+  router.post('/sign-provider',
+    validationHandler(createProviderUserSchema),
+    signProvider,
+  )
 };
 
 // --- Rotes Callbacks ---
@@ -44,6 +50,18 @@ const singUp = async (req, res, next) => {
   const { body: userData } = req;
   try {
     await auth.singUp(req, res, next, userData);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * (POST) Sign Up
+*/
+const signProvider = async (req, res, next) => {
+  const { body } = req;
+  try {
+    await auth.signProvider(req, res, next, body);
   } catch (error) {
     next(error);
   }

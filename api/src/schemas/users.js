@@ -13,11 +13,20 @@ const userPasswordSchema = Joi.string().min(6);
 
 // --- Object Schemas ---
 
-const createUserSchema = {
+const userSchema = {
   name: userNameSchema.required(),
   email: userEmailSchema.required(),
   password: userPasswordSchema.required(),
+};
+
+const createUserSchema = {
+  ...userSchema,
   isAdmin: Joi.boolean(),
+};
+
+const createProviderUserSchema = {
+  ...userSchema,
+  apiKeyToken: Joi.string().required(),
 };
 
 const updateUserSchema = {
@@ -31,5 +40,6 @@ module.exports = {
   userIdSchema,
   userEmailSchema,
   createUserSchema,
+  createProviderUserSchema,
   updateUserSchema,
 };

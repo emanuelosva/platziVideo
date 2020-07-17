@@ -17,7 +17,7 @@ app.use(cookieParser());
 // Router
 app.post("/auth/sign-in", controller.signIn);
 app.post("/auth/sign-up", controller.signUp);
-app.get('/auth-google-oauth',
+app.get('/auth/google-oauth',
   passport.authenticate('google-oauth', {
     scope: ['email', 'profile', 'openid'],
   })

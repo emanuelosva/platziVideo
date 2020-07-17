@@ -50,6 +50,14 @@ class UsersService {
     const user = await this.db.update(userId, userData);
     return user || {};
   }
+
+  async getOrCreateUser({ userData }) {
+    const queriedUser = await this.getUser({ email: userData.email });
+    if (queriedUser._id) return queriedUser;
+
+    await this.createUser({ userData });
+    return await this.getUser({ email: userData.email });
+  };
 };
 
 module.exports = UsersService;
