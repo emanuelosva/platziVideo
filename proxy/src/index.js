@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
+const helmet = require('helmet');
 const config = require('./config');
 const controller = require('./controller');
 
@@ -18,6 +19,7 @@ require('./auth/strategys/twitter');
 const app = express();
 
 // App settings
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({ secret: config.auth.sessionSecret }))
