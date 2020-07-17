@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const config = require('./config');
 const controller = require('./controller');
 
@@ -7,6 +8,7 @@ const app = express();
 
 // App settings
 app.use(express.json());
+app.use(cookieParser());
 
 // Router
 app.post("/auth/sign-in", controller.singIn);
