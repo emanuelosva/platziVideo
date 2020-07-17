@@ -11,8 +11,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Router
-app.post("/auth/sign-in", controller.singIn);
-app.post("/auth/sign-up", controller.singUp);
+app.post("/auth/sign-in", controller.signIn);
+app.post("/auth/sign-up", controller.signUp);
 app.get("/movies", controller.getMovies);
 app.post("/user-movies", controller.addUserMovie);
 app.delete("/user-movies/:userMovieId", controller.deletUserMovie);

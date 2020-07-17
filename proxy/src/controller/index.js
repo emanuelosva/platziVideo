@@ -10,14 +10,15 @@ const config = require('../config');
 require('../auth/strategys/basic');
 
 // Useful vars
-const THIRTY_DAYS_IN_SEC = 2592000;
-const TWO_HOURS_IN_SEC = 7200;
+const THIRTY_DAYS_IN_SEC = 2592000 * 1000;
+const TWO_HOURS_IN_SEC = 7200 * 1000;
 const urlApi = config.api.url;
 
 // --- Controllers ---
 
-const singIn = async (req, res, next) => {
+const signIn = async (req, res, next) => {
   const { rememberMe } = req.body;
+  console.log(req.cookies);
   passport.authenticate('basic', (error, data) => {
     try {
       if (error || !data) next(boom.unauthorized());
@@ -34,6 +35,7 @@ const singIn = async (req, res, next) => {
           httpOnly: !config.dev,
           secure: !config.dev,
           maxAge: maxAgeCookie,
+          path: '/',
         });
 
         res.status(200).json(user);
@@ -44,16 +46,16 @@ const singIn = async (req, res, next) => {
   })(req, res, next);
 };
 
-const singUp = async (req, res, next) => {
+const signUp = async (req, res, next) => {
   const { body: userData } = req;
   try {
-    await axios({
-      url: `${urlApi}/api/auth/sing-up`,
+    const { status } = await axios({
+      url: `${urlApi}/api/auth/sign-up`,
       method: 'POST',
       data: userData,
     });
 
-    if (res.status !== 201) next(boom.badRequest());
+    if (status !== 201) next(boom.badRequest());
 
     res.status(201).json({ message: 'user created' });
   } catch (error) {
@@ -62,12 +64,48 @@ const singUp = async (req, res, next) => {
 };
 
 const getMovies = async (req, res, next) => { };
-const addUserMovie = async (req, res, next) => { };
-const deletUserMovie = async (req, res, next) => { };
+
+const addUserMovie = async (req, res, next) => {
+  const { body: userMovie } = req;
+  const { token } = { ...req.cookies };
+  console.log({ ...req.cookies })
+  try {
+    const { data, status } = await axios({
+      url: `${urlApi}/api/user-movies`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'POST',
+      data: userMovie,
+    });
+
+    if (status !== 201) return next(boom.badImplementation());
+
+    res.status(201).json(data.body);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deletUserMovie = async (req, res, next) => {
+  const { userMovieId } = req.params;
+  const { token } = req.cookies;
+  try {
+    const { data, status } = await axios({
+      url: `${urlApi}/api/user-movies/${userMovieId}`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'DELETE'
+    });
+
+    if (status !== 200) return next(boom.badImplementation());
+
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
-  singIn,
-  singUp,
+  signIn,
+  signUp,
   getMovies,
   addUserMovie,
   deletUserMovie,
