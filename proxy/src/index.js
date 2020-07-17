@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const config = require('./config');
@@ -10,12 +11,18 @@ require('./auth/strategys/oauth');
 // Google Strategy
 require('./auth/strategys/google');
 
+// Google Strategy
+require('./auth/strategys/twitter');
+
 // App definition
 const app = express();
 
 // App settings
 app.use(express.json());
 app.use(cookieParser());
+app.use(session({ secret: config.auth.sessionSecret }))
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Router
 app.post("/auth/sign-in", controller.signIn);
@@ -32,7 +39,7 @@ app.get('/auth/google-oauth/callback',
   passport.authenticate('google-oauth', {
     session: false,
   }),
-  controller.googleOauth,
+  controller.providerOauth,
 );
 
 app.get('/auth/google',
@@ -45,7 +52,18 @@ app.get('/auth/google/callback',
   passport.authenticate('google', {
     session: false,
   }),
-  controller.googleOauth,
+  controller.providerOauth,
+);
+
+app.get('/auth/twitter',
+  passport.authenticate('twitter'),
+);
+
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', {
+    session: false,
+  }),
+  controller.providerOauth,
 );
 
 app.get("/movies", controller.getMovies);

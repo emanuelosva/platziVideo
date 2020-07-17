@@ -63,7 +63,7 @@ const signUp = async (req, res, next) => {
   }
 };
 
-const googleOauth = (req, res, next) => {
+const providerOauth = (req, res, next) => {
   if (!req.user) next(boom.unauthorized());
 
   const { token, ...user } = req.user;
@@ -118,7 +118,7 @@ const deletUserMovie = async (req, res, next) => {
 module.exports = {
   signIn,
   signUp,
-  googleOauth,
+  providerOauth,
   getMovies,
   addUserMovie,
   deletUserMovie,
