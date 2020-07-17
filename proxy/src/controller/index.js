@@ -63,6 +63,18 @@ const signUp = async (req, res, next) => {
   }
 };
 
+const googleOauth = (req, res, next) => {
+  if (!req.user) next(boom.unauthorized());
+
+  const { token, ...user } = req.user;
+  res.cookie('token', token, {
+    httpOnly: !config.dev,
+    secure: !config.dev,
+  });
+
+  res.status(200).json(user);
+};
+
 const getMovies = async (req, res, next) => { };
 
 const addUserMovie = async (req, res, next) => {
@@ -106,6 +118,7 @@ const deletUserMovie = async (req, res, next) => {
 module.exports = {
   signIn,
   signUp,
+  googleOauth,
   getMovies,
   addUserMovie,
   deletUserMovie,

@@ -1,7 +1,11 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
 const config = require('./config');
 const controller = require('./controller');
+
+// Oauth Strategy
+require('./auth/strategys/oauth');
 
 // App definition
 const app = express();
@@ -13,6 +17,17 @@ app.use(cookieParser());
 // Router
 app.post("/auth/sign-in", controller.signIn);
 app.post("/auth/sign-up", controller.signUp);
+app.get('/auth-google-oauth',
+  passport.authenticate('google-oauth', {
+    scope: ['email', 'profile', 'openid'],
+  })
+);
+app.get('/auth/google-oauth/callback',
+  passport.authenticate('google-oauth', {
+    session: false,
+  }),
+  controller.googleOauth,
+);
 app.get("/movies", controller.getMovies);
 app.post("/user-movies", controller.addUserMovie);
 app.delete("/user-movies/:userMovieId", controller.deletUserMovie);
