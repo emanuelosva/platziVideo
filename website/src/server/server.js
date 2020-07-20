@@ -10,14 +10,25 @@ import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { join } from 'path';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import passport from 'passport';
 import reducer from '../frontend/reducers';
 import initialState from '../frontend/initialState';
 import serverRoutes from '../frontend/routes/serverRoutes';
 import config from '../config';
 import manifestMiddleware from './getManifest';
+import controller from './controller';
 
 const PORT = config.port;
 const app = express();
+
+// General settings
+app.use(express.json());
+app.use(cookieParser());
+app.use(session({ secret: config.auth.sessionSecret }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 if (config.env !== 'production') {
   // Development config
@@ -82,6 +93,10 @@ const renderApp = (req, res) => {
 
   res.send(setResponse(html, preloadedState, req.manifestMiddleware));
 };
+
+// Auth routes
+app.post('/auth/sign-in', controller.signIn);
+app.post('/auth/sign-up', controller.signUp);
 
 // Send first HTML from server
 app.get('*', renderApp);

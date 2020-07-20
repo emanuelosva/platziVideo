@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "alias": [
+    "platzi-video-service"
+  ],
   "env": {
     "PORT": "3000",
     "DB_USER": "@platzivideo-db-user",
