@@ -19,7 +19,7 @@ const urlApi = config.api.url;
 // --- Controllers ---
 
 const signIn = async (req, res, next) => {
-  const { rememberMe } = req.body;
+  const { rememberMe } = req.body || false;
 
   passport.authenticate('basic', (error, data) => {
     try {
@@ -49,15 +49,23 @@ const signIn = async (req, res, next) => {
 const signUp = async (req, res, next) => {
   const { body: userData } = req;
   try {
-    const { status } = await axios({
+    const { data, status } = await axios({
       url: `${urlApi}/api/auth/sign-up`,
       method: 'POST',
-      data: userData,
+      data: {
+        email: userData.email,
+        name: userData.name,
+        password: userData.password,
+      },
     });
 
     if (status !== 201) next(boom.badRequest());
 
-    res.status(201).json({ message: 'user created' });
+    res.status(201).json({
+      email: userData.email,
+      name: userData.name,
+      id: data.body._id,
+    });
   } catch (error) {
     next(error);
   }

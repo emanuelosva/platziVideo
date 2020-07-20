@@ -6,6 +6,7 @@ const actionTypes = {
   registerRequest: 'REGISTER_REQUEST',
   getVideoSource: 'GET_VIDEO_SOURCE',
   findVideo: 'FIND_VIDEO',
+  setError: 'SET_ERROR',
 };
 
 export default actionTypes;
