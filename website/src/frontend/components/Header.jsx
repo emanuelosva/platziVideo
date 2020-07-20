@@ -19,7 +19,12 @@ const Header = (props) => {
   const userEmail = hasUser ? user.email : 'User';
 
   const handleLogout = (state) => {
+    document.cookie = 'email=';
+    document.cookie = 'name=';
+    document.cookie = 'id=';
+    document.cookie = 'token=';
     props.logoutRequest({});
+    window.location.href = '/login';
   };
 
   const headerClass = classNames('header', {
