@@ -9,7 +9,9 @@
     "build": "NODE_ENV=production webpack-cli --config webpack.config.js",
     "lint:fix": "eslint --fix ./src/.",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:report": "sensible-browser ./coverage/lcov-report/index.html"
   },
   "keywords": [],
   "author": "",
@@ -73,6 +75,7 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "jest": {
+    "verbose": true,
     "setupFilesAfterEnv": [
       "<rootDir>/src/frontend/__test__/setupTest.js"
     ],
