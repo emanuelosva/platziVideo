@@ -12,7 +12,6 @@ import { join } from 'path';
 import helmet from 'helmet';
 import axios from 'axios';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import passport from 'passport';
 import reducer from '../frontend/reducers';
 import serverRoutes from '../frontend/routes/serverRoutes';
@@ -26,7 +25,6 @@ const app = express();
 // General settings
 app.use(express.json());
 app.use(cookieParser());
-app.use(session({ secret: config.auth.sessionSecret }));
 app.use(passport.initialize());
 app.use(passport.session());
 
