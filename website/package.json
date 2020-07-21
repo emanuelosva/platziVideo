@@ -2,10 +2,10 @@
   "name": "platzivideo-frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server/index",
+  "main": "src/server/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node src/server/index",
-    "dev": "NODE_ENV=development nodemon src/server/index",
+    "start": "NODE_ENV=production node src/server/index.js",
+    "dev": "NODE_ENV=development nodemon src/server/index.js",
     "build": "NODE_ENV=production webpack-cli --config webpack.config.js",
     "lint:fix": "eslint --fix ./src/.",
     "test": "jest",
@@ -17,7 +17,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.10.5",
     "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
     "@babel/register": "^7.10.4",
     "@hapi/boom": "^9.1.0",
     "asset-require-hook": "^1.2.0",
@@ -36,6 +39,7 @@
     "passport-http": "^0.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-hot-loader": "^4.12.21",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router": "^5.2.0",
@@ -44,13 +48,10 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "webpack": "^4.43.0",
-    "webpack-manifest-plugin": "^2.2.0",
-    "@babel/core": "^7.10.4"
+    "webpack-manifest-plugin": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.10.4",
     "babel-loader": "^8.1.0",
-    "@babel/preset-react": "^7.10.4",
     "babel-eslint": "^10.1.0",
     "css-loader": "^3.6.0",
     "enzyme": "^3.11.0",
@@ -65,7 +66,6 @@
     "jest": "^26.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
-    "react-hot-loader": "^4.12.21",
     "react-test-renderer": "^16.13.1",
     "sass-loader": "^9.0.2",
     "terser-webpack-plugin": "^3.0.6",
@@ -83,8 +83,5 @@
       "\\.(jpg|jpeg|gif|png)$": "<rootDir>/src/frontend/__mocks__/fileMock.js",
       "\\.(scss|css|sass)$": "<rootDir>/src/frontend/__mocks__/styleMock.js"
     }
-  },
-  "engines": {
-    "node": "12.16.x"
   }
 }
