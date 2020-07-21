@@ -10,6 +10,7 @@ import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { join } from 'path';
 import helmet from 'helmet';
+import axios from 'axios';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
@@ -79,18 +80,46 @@ const setResponse = (html, preloadedState, manifest) => {
   `);
 };
 
-const renderApp = (req, res) => {
+const renderApp = async (req, res) => {
   let initialState;
-  const { email, name, id } = req.cookies;
+  const { email, name, id, token } = req.cookies;
 
-  if (id) {
+  try {
+    // Get movies from DB
+    const movieList = await axios({
+      url: `${config.api.url}/api/movies`,
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    }).then(({ data }) => data.body);
+
+    //Get the user List
+    const userList = await axios({
+      url: `${config.api.url}/api/user-movies?userId=${id}`,
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    }).then(({ data }) => data.body);
+
+    const userListIds = userList.map((item) => item.movieId);
+    // const myList = movieList.filter((item) => userListIds.includes(item._id));
+    const myList = movieList.reduce((arr, item) => {
+      if (userListIds.includes(item._id)) {
+        const index = userListIds.indexOf(item._id);
+        arr.push({ ...item, favoriteMovieId: userList[index]._id });
+      }
+      return arr;
+    }, []);
+
     initialState = {
       user: { email, name, id },
-      myList: [],
-      trends: [],
-      originals: [],
+      myList,
+      trends: movieList.filter((movie) => (
+        movie.contentRating === 'PG' && movie._id
+      )),
+      originals: movieList.filter((movie) => (
+        movie.contentRating === 'G' && movie._id
+      )),
     };
-  } else {
+  } catch (error) {
     initialState = {
       user: {},
       myList: [],
@@ -116,6 +145,10 @@ const renderApp = (req, res) => {
 // Auth routes
 app.post('/auth/sign-in', controller.signIn);
 app.post('/auth/sign-up', controller.signUp);
+
+// User-Movies routes
+app.post('/user-movies', controller.addUserMovie);
+app.delete('/user-movies/:userMovieId', controller.deletUserMovie);
 
 // Send first HTML from server
 app.get('*', renderApp);

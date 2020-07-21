@@ -83,17 +83,34 @@ const providerOauth = (req, res, next) => {
   res.status(200).json(user);
 };
 
-const getMovies = async (req, res, next) => { };
+const getUserMovies = async ({ userId, token }) => {
+  try {
+    const { data, status } = await axios({
+      url: `${urlApi}/api/user-movies?userId=${userId}`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'GET',
+    });
+
+    if (status !== 201) return next(boom.badImplementation());
+
+    res.status(201).json(data.body);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const addUserMovie = async (req, res, next) => {
   const { body: userMovie } = req;
-  const { token } = { ...req.cookies };
+  const { token } = req.cookies;
   try {
     const { data, status } = await axios({
       url: `${urlApi}/api/user-movies`,
       headers: { Authorization: `Bearer ${token}` },
       method: 'POST',
-      data: userMovie,
+      data: {
+        movieId: userMovie.movieId,
+        userId: userMovie.userId,
+      },
     });
 
     if (status !== 201) return next(boom.badImplementation());
@@ -126,7 +143,7 @@ module.exports = {
   signIn,
   signUp,
   providerOauth,
-  getMovies,
+  getUserMovies,
   addUserMovie,
   deletUserMovie,
 };

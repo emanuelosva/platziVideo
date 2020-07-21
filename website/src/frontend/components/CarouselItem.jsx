@@ -2,23 +2,30 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setFavorite, deleteFavorite } from '../actions';
+import { addUserFavoriteMovie, deletUserFavoriteMovie } from '../actions';
 import '../assets/styles/components/CarouselItem.scss';
-
 import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
 import removeIcon from '../assets/static/remove-icon.png';
 
 const CarouselItem = (props) => {
-  const { cover, title, year, contentRating, duration, id, isMyList } = props;
+  const {
+    cover, title, year, contentRating, duration, _id, isMyList, user, favoriteMovieId,
+  } = props;
 
   const handleSetFavorite = () => {
-    props.setFavorite({
-      id, cover, title, year, contentRating, duration,
-    });
+    props.addUserFavoriteMovie(
+      {
+        _id, cover, title, year, contentRating, duration,
+      },
+      {
+        userId: user.id,
+        movieId: _id,
+      },
+    );
   };
   const handleDeleteFavorite = (itemId) => {
-    props.deleteFavorite(itemId);
+    props.deletUserFavoriteMovie({ movieId: _id, favoriteMovieId });
   };
 
   return (
@@ -26,7 +33,7 @@ const CarouselItem = (props) => {
       <img className='carousel-item__img' src={cover} alt={title} />
       <div className='carousel-item__details'>
         <div>
-          <Link to={`/player/${id}`}>
+          <Link to={`/player/${_id}`}>
             <img
               className='carousel-item__details--img'
               src={playIcon}
@@ -39,7 +46,7 @@ const CarouselItem = (props) => {
                 className='carousel-item__details--img'
                 src={removeIcon}
                 alt='Remove Icon'
-                onClick={() => handleDeleteFavorite(id)}
+                onClick={() => handleDeleteFavorite(favoriteMovieId)}
               />
             ) :
             (
@@ -66,15 +73,23 @@ CarouselItem.propTypes = {
   year: PropTypes.number,
   contentRating: PropTypes.string,
   duration: PropTypes.number,
-  id: PropTypes.number,
+  _id: PropTypes.string,
+  favoriteMovieId: PropTypes.string,
   isMyList: PropTypes.bool,
-  setFavorite: PropTypes.func,
-  deleteFavorite: PropTypes.func,
+  user: PropTypes.object,
+  addUserFavoriteMovie: PropTypes.func,
+  deletUserFavoriteMovie: PropTypes.func,
 };
 
 const mapDispatchToProps = {
-  setFavorite,
-  deleteFavorite,
+  addUserFavoriteMovie,
+  deletUserFavoriteMovie,
 };
 
-export default connect(null, mapDispatchToProps)(CarouselItem);
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CarouselItem);

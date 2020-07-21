@@ -67,3 +67,32 @@ export const loginUser = ({ email, password }, redirectUrl) => {
       .catch((err) => setError(err));
   };
 };
+
+export const addUserFavoriteMovie = (payload, { userId, movieId }) => {
+  return (dispatch) => {
+    // Save movie to user list
+    axios({
+      url: '/user-movies',
+      method: 'POST',
+      data: { userId, movieId },
+    })
+      .then(({ data }) => {
+        // Save the relation identifier (data._id)
+        const movieAdded = { ...payload };
+        movieAdded['favoriteMovieId'] = data._id;
+        dispatch(setFavorite(movieAdded));
+      })
+      .catch((err) => dispatch(setError(err)));
+  };
+};
+
+export const deletUserFavoriteMovie = ({ movieId, favoriteMovieId }) => {
+  return (dispatch) => {
+    axios({
+      url: `/user-movies/${favoriteMovieId}`,
+      method: 'DELETE',
+    })
+      .then(() => dispatch(deleteFavorite(movieId)))
+      .catch((err) => setError(err));
+  };
+};

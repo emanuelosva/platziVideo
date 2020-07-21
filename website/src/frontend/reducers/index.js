@@ -6,7 +6,7 @@ const reducer = (state, action) => {
     case typeAction.setFavorite:
       // eslint-disable-next-line no-case-declarations
       const exist = state.myList.find((item) => (
-        item.id === action.payload.id
+        item._id === action.payload._id
       ));
       if (exist) return { ...state };
 
@@ -18,7 +18,7 @@ const reducer = (state, action) => {
     case typeAction.deleteFavorite:
       return {
         ...state,
-        myList: state.myList.filter((items) => items.id !== action.payload),
+        myList: state.myList.filter((items) => items._id !== action.payload),
       };
 
     case typeAction.loginRequest:
