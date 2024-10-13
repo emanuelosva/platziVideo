@@ -27,10 +27,10 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "compression-webpack-plugin": "^4.0.0",
-    "cookie-parser": "^1.4.5",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "helmet": "^3.23.3",
     "history": "^5.0.0",
     "ignore-styles": "^5.0.1",
@@ -47,7 +47,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "webpack": "^4.43.0",
+    "webpack": "^5.0.0",
     "webpack-manifest-plugin": "^2.2.0"
   },
   "devDependencies": {
